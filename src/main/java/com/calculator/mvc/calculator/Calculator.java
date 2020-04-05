@@ -75,15 +75,6 @@ public class Calculator {
         stackOperations.clear();
         stackRPN.clear();
 
-        /*
-         * make some preparations: remove spaces; handle unary + and -, handle
-         * degree character
-         */
-        expression = expression.replace(" ", "")
-                .replace("°", "*" + Double.toString(Math.PI) + "/180")
-                .replace("(-", "(0-").replace(",-", ",0-").replace("(+", "(0+")
-                .replace(",+", ",0+").replace("true", "1").replace("false", "0")
-                .replace("or", "|").replace("and", "&");
         if (expression.charAt(0) == '-' || expression.charAt(0) == '+') {
             expression = "0" + expression;
         }

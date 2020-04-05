@@ -3,6 +3,8 @@ $(document).ready(function () {
          displayValue: document.querySelector('.calculator-screen').value
      };
 
+     const operatorCharacter = "/*-+";
+
     function resetCalculator() {
         calculator.displayValue = '0';
     }
@@ -22,14 +24,22 @@ $(document).ready(function () {
             calculator.displayValue += digit;
         }
     }
-
+    function clearLast() {
+        if(calculator.displayValue.length>1){
+            calculator.displayValue = calculator.displayValue.replace(/.$/,"");
+        }else{
+            calculator.displayValue = '0';
+        }
+    }
     function inputOperator(operator) {
-        console.log("handleOperator");
-        console.log(operator);
-        if (calculator.displayValue === '0') {
-            calculator.displayValue = "0" + operator;
-        } else {
-            calculator.displayValue += operator;
+        if(operatorCharacter.includes(calculator.displayValue.charAt(calculator.displayValue.length-1))){
+            calculator.displayValue = calculator.displayValue.replace(/.$/,operator);
+        }else{
+            if (calculator.displayValue === '0') {
+                calculator.displayValue = "0" + operator;
+            } else {
+                calculator.displayValue += operator;
+            }
         }
     }
 
@@ -61,6 +71,11 @@ $(document).ready(function () {
 
         if (target.classList.contains('all-clear')) {
             resetCalculator();
+            updateDisplay();
+            return;
+        }
+        if (target.classList.contains('clear-last')) {
+            clearLast();
             updateDisplay();
             return;
         }

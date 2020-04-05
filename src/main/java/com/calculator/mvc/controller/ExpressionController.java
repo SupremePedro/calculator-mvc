@@ -64,22 +64,4 @@ public class ExpressionController {
         return "index";
     }
 
-
-    /*
-
-    @GetMapping
-    public ResponseEntity<DataContainer<List<Expression>>> getAll(){
-        return ResponseEntity.ok(new DataContainer<>(expressionService.readAll(1,100)));
-    }
-
-    @PostMapping
-    public ResponseEntity<DataContainer<Expression>> addExpression(@RequestBody Expression expression){
-        expressionService.create(expression);
-        return ResponseEntity.ok(new DataContainer<>(expression));
-    }
-
-    @GetMapping("{/id}")
-    public ResponseEntity<DataContainer<Expression>> readById(@PathVariable Long id){
-        return ResponseEntity.ok(new DataContainer<>(expressionService.readById(id)));
-    }*/
 }
