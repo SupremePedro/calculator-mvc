@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Calculator</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+</head>
+<body>
+<div class="calculator card" >
+    <form  method="GET" th:object="${expression}">
+    <input type="text" class="calculator-screen z-depth-1" th:field="*{expression}"/>
+
+    <div class="calculator-keys">
+
+        <button type="submit" th:formaction="@{/redo}"class="btn btn-info" value="REDO">REDO</button>
+        <button type="submit" th:formaction="@{/undo}" class="btn btn-info" value="UNDO">UNDO</button>
+        <button type="button" class="all-clear function btn btn-all-clear btn-sm" value="all-clear">AC</button>
+        <button type="button" class="all-clear function btn btn-clear btn-sm" value="all-clear">C</button>
+
+        <button type="button" class="operator btn btn-info" value="+">+</button>
+        <button type="button" class="operator btn btn-info" value="-">-</button>
+        <button type="button" class="operator btn btn-info" value="*">&times;</button>
+        <button type="button" class="operator btn btn-info" value="/">&divide;</button>
+
+        <button type="button" value="7" class="digit btn btn-light">7</button>
+        <button type="button" value="8" class="digit btn btn-light">8</button>
+        <button type="button" value="9" class="digit btn btn-light">9</button>
+
+
+        <button type="button" value="4" class="digit btn btn-light">4</button>
+        <button type="button" value="5" class="digit btn btn-light">5</button>
+        <button type="button" value="6" class="digit btn btn-light">6</button>
+
+        <button type="button" value="1" class="digit btn btn-light">1</button>
+        <button type="button" value="2" class="digit btn btn-light">2</button>
+        <button type="button" value="3" class="digit btn btn-light">3</button>
+
+
+        <button type="button" value="0" class="digit btn btn-light">0</button>
+        <button type="button"  class="decimal function btn btn-secondary" value=".">.</button>
+        <button type="button" class="bracket btn btn-info" value="(">(</button>
+        <button type="button" class="bracket btn btn-info" value=")">)</button>
+
+        <button type="submit" th:formaction="@{/evaluate}" class="equal-sign btn btn-default" value="=">=</button>
+
+    </div>
+
+    </form>
+</div>
+</body>
+</html>
