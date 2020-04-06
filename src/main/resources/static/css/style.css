@@ -55,7 +55,7 @@ button {
     box-sizing: inherit;
     height: 60px;
     font-size: 2rem!important;
-    background-color: #33b5e5!important;
+    background-color: #33b5e5;
     color: #fff;
 }
 .btn{
@@ -69,4 +69,8 @@ button {
 .btn-clear {
     background-color: #ffe330;
     color: #fff;
+}
+
+.operator{
+    background-color: #46821d !important;
 }

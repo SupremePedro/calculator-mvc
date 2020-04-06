@@ -6,19 +6,16 @@ import java.util.*;
 
 public class Calculator {
 
-    /* list of available operators */
     private final String OPERATORS = "+-*/";
-    /* separator of arguments */
+
     private final String SEPARATOR = ",";
-    /* settings for numbers formatting */
+
     private NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
 
-
-    /* temporary stack that holds operators, functions and brackets */
     private Stack<String> stackOperations = new Stack<>();
-    /* stack for holding expression converted to reversed polish notation */
+
     private Stack<String> stackRPN = new Stack<>();
-    /* stack for holding the calculations result */
+
     private Stack<String> stackAnswer = new Stack<>();
 
     public Calculator() {
@@ -26,19 +23,15 @@ public class Calculator {
 
     public String evaluate(String expression) throws ParseException {
         parse(expression);
-        /* check if is there something to evaluate */
         if (stackRPN.empty()) {
             return "";
         }
-        /* clean answer stack */
         stackAnswer.clear();
 
-        /* get the clone of the RPN stack for further evaluating */
         @SuppressWarnings("unchecked")
         Stack<String> stackRPN = (Stack<String>) this.stackRPN.clone();
 
 
-        /* evaluating the RPN expression */
         while (!stackRPN.empty()) {
             String token = stackRPN.pop();
             if (isNumber(token)) {
@@ -71,26 +64,24 @@ public class Calculator {
     }
 
     public void parse(String expression) throws ParseException {
-        /* cleaning stacks */
+
         stackOperations.clear();
         stackRPN.clear();
 
-        /*
-         * make some preparations: remove spaces; handle unary + and -, handle
-         * degree character
-         */
         expression = expression
+                .replace("()", "0")
+                .replace(")(", ")*(")
                 .replace("()", "0")
                 .replace("(-", "(0-")
                 .replace(",", "")
-                .replace("(+", "(0+");
+                .replace("(+", "(0+")
+                .replace("[0-9]","")
+                .replaceAll("(\\d)(\\()","${1}*${2}");
         if (expression.charAt(0) == '-' || expression.charAt(0) == '+') {
             expression = "0" + expression;
         }
-        /* splitting input string into tokens */
         StringTokenizer stringTokenizer = new StringTokenizer(expression, OPERATORS + SEPARATOR + "()", true);
 
-        /* loop for handling each token - shunting-yard algorithm */
         while (stringTokenizer.hasMoreTokens()) {
             String token = stringTokenizer.nextToken();
             if (isSeparator(token)) {
@@ -121,7 +112,7 @@ public class Calculator {
             stackRPN.push(stackOperations.pop());
         }
 
-        /* reverse stack */
+
         Collections.reverse(stackRPN);
     }
 

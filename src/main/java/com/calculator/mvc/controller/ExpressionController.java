@@ -47,8 +47,7 @@ public class ExpressionController {
     @GetMapping(value = "/undo")
     public String undo(Model model, @ModelAttribute("expression") Expression expression){
         if(expression.getPreviousExpressionId()!=null){
-            Expression result = new Expression();
-            result = expressionRepository.getOne(expression.getPreviousExpressionId());
+            Expression result = expressionRepository.getOne(expression.getPreviousExpressionId());
             model.addAttribute("expression",result);
         }
         return "index";
@@ -57,8 +56,7 @@ public class ExpressionController {
     @GetMapping(value = "/redo")
     public String redo(Model model, @ModelAttribute("expression") Expression expression){
         if(expression.getNextExpressionId()!=null){
-            Expression result = new Expression();
-            result = expressionRepository.getOne(expression.getNextExpressionId());
+            Expression result = expressionRepository.getOne(expression.getNextExpressionId());
             model.addAttribute("expression",result);
         }
         return "index";

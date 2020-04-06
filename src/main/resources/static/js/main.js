@@ -8,9 +8,7 @@ $(document).ready(function () {
     }
 
     function inputDecimal(dot) {
-        // If the `displayValue` does not contain a decimal point
         if (!calculator.displayValue.includes(dot)) {
-            // Append the decimal point
             calculator.displayValue += dot;
         }
     }
@@ -30,7 +28,10 @@ $(document).ready(function () {
         }
     }
     function inputOperator(operator) {
-        if(isLastCharOperator()){
+        if("(".includes(calculator.displayValue.charAt(calculator.displayValue.length-1))){
+            calculator.displayValue += "0" + operator;
+        }
+        else if(isLastCharOperator()){
             calculator.displayValue = calculator.displayValue.replace(/.$/,operator);
         }else{
             if (calculator.displayValue === '0') {
@@ -66,6 +67,7 @@ $(document).ready(function () {
             f.method = "GET";
             f.submit();
 
+
         }
     }
 
@@ -88,9 +90,6 @@ $(document).ready(function () {
         const operatorCharacter = "/*-+";
         return operatorCharacter.includes(calculator.displayValue.charAt(calculator.displayValue.length-1));
     }
-    // function isLastCharDigit() {
-    //     return operatorCharacter.includes(calculator.displayValue.charAt(calculator.displayValue.length-1));
-    // }
     function undoProcess(f){
         console.log("undo");
         f.action = "/undo";
