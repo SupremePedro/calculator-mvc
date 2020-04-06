@@ -9,13 +9,13 @@
 </head>
 <body>
 <div class="calculator card" >
-    <form  method="GET" th:object="${expression}">
+    <form  id = "calculator-form" method="GET" th:object="${expression}">
     <input type="text" class="calculator-screen z-depth-1" th:field="*{expression}"/>
 
     <div class="calculator-keys">
 
-        <button type="submit" th:formaction="@{/redo}"class="btn btn-info" value="REDO">REDO</button>
-        <button type="submit" th:formaction="@{/undo}" class="btn btn-info" value="UNDO">UNDO</button>
+        <button type="button" class="redo btn btn-info" value="REDO">REDO</button>
+        <button type="button" class="undo btn btn-info" value="UNDO">UNDO</button>
         <button type="button" class="all-clear function btn btn-all-clear btn-sm" value="all-clear">AC</button>
         <button type="button" class="clear-last function btn btn-clear btn-sm" value="clear-last">C</button>
 
@@ -39,11 +39,11 @@
 
 
         <button type="button" value="0" class="digit btn btn-light">0</button>
-        <button type="button"  class="decimal function btn btn-secondary" value=".">.</button>
+        <button type="button" class="decimal function btn btn-secondary" value=".">.</button>
         <button type="button" class="bracket btn btn-info" value="(">(</button>
         <button type="button" class="bracket btn btn-info" value=")">)</button>
 
-        <button type="submit" th:formaction="@{/evaluate}" class="equal-sign btn btn-default" value="=">=</button>
+        <button type="button" class="equal-sign btn btn-default" value="=">=</button>
 
     </div>
 

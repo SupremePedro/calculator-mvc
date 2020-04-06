@@ -3,8 +3,6 @@ $(document).ready(function () {
          displayValue: document.querySelector('.calculator-screen').value
      };
 
-     const operatorCharacter = "/*-+";
-
     function resetCalculator() {
         calculator.displayValue = '0';
     }
@@ -32,7 +30,7 @@ $(document).ready(function () {
         }
     }
     function inputOperator(operator) {
-        if(operatorCharacter.includes(calculator.displayValue.charAt(calculator.displayValue.length-1))){
+        if(isLastCharOperator()){
             calculator.displayValue = calculator.displayValue.replace(/.$/,operator);
         }else{
             if (calculator.displayValue === '0') {
@@ -40,6 +38,34 @@ $(document).ready(function () {
             } else {
                 calculator.displayValue += operator;
             }
+        }
+    }
+
+    function equalSignProcess(f){
+        let inputValue = document.getElementsByTagName("input")[0].value;
+        function haveSameLength(str, a, b){
+            return (str.match(a) || [] ).length === (str.match(b) || [] ).length;
+        };
+        function isBalanced(str){
+            var arr = [
+                [ /\(/gm, /\)/gm ]
+            ], i = arr.length, isClean = true;
+
+            while( i-- && isClean ){
+                isClean = haveSameLength( str, arr[i][0], arr[i][1] );
+            }
+            return isClean;
+        };
+        if(!isBalanced(inputValue)){
+            alert("Error: Wrong brackets format!!!");
+        }else if(isLastCharOperator()){
+            alert("Error: Wrong operator format!!!");
+        }else{
+            document.getElementsByTagName("input")[0].value = inputValue.replace(/,/,"");
+            f.action = "/evaluate";
+            f.method = "GET";
+            f.submit();
+
         }
     }
 
@@ -51,14 +77,60 @@ $(document).ready(function () {
     updateDisplay();
 
     const keys = document.querySelector('.calculator-keys');
+
+    function redoProcess(f) {
+        console.log("redo");
+        f.action = "/redo";
+        f.method = "GET";
+        f.submit();
+    }
+    function isLastCharOperator() {
+        const operatorCharacter = "/*-+";
+        return operatorCharacter.includes(calculator.displayValue.charAt(calculator.displayValue.length-1));
+    }
+    // function isLastCharDigit() {
+    //     return operatorCharacter.includes(calculator.displayValue.charAt(calculator.displayValue.length-1));
+    // }
+    function undoProcess(f){
+        console.log("undo");
+        f.action = "/undo";
+        f.method = "GET";
+        f.submit();
+    }
+
+    function inputBracket(value) {
+        if(value==")"){
+            if(!isLastCharOperator()){
+                calculator.displayValue += value;
+            }
+        }else{
+            if (calculator.displayValue === '0') {
+                calculator.displayValue = value;
+            }else {
+                calculator.displayValue += value;
+            }
+        }
+    }
+
     keys.addEventListener('click', (event) => {
         const {target} = event;
+        const f = document.getElementById("calculator-form");
         if (!target.matches('button')) {
             return;
         }
 
         if (target.classList.contains('operator')) {
             inputOperator(target.value);
+            updateDisplay();
+            return;
+        }
+        if (target.classList.contains('redo')) {
+            redoProcess(f);
+            updateDisplay();
+            return;
+        }
+        if (target.classList.contains('undo')) {
+            undoProcess(f);
             updateDisplay();
             return;
         }
@@ -80,11 +152,16 @@ $(document).ready(function () {
             return;
         }
         if (target.classList.contains('equal-sign')) {
+            equalSignProcess(f);
             updateDisplay();
             return;
         }
         if (target.classList.contains('digit')) {
             inputDigit(target.value);
+            updateDisplay();
+        }
+        if (target.classList.contains('bracket')) {
+            inputBracket(target.value);
             updateDisplay();
         }
     });

@@ -75,6 +75,15 @@ public class Calculator {
         stackOperations.clear();
         stackRPN.clear();
 
+        /*
+         * make some preparations: remove spaces; handle unary + and -, handle
+         * degree character
+         */
+        expression = expression
+                .replace("()", "0")
+                .replace("(-", "(0-")
+                .replace(",", "")
+                .replace("(+", "(0+");
         if (expression.charAt(0) == '-' || expression.charAt(0) == '+') {
             expression = "0" + expression;
         }
